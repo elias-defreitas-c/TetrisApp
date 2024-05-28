@@ -42,7 +42,7 @@ namespace TetrisApp
         }
         public void RotateBlockCW()
         {
-            currentBlock.RotateCW();
+            CurrentBlock.RotateCW();
 
             if (!BlockFits())
             {
@@ -51,7 +51,7 @@ namespace TetrisApp
         }
         public void RotateBlockCCW()
         {
-            currentBlock.RotateCCW();
+            CurrentBlock.RotateCCW();
 
             if (!BlockFits()) 
             {
@@ -97,7 +97,7 @@ namespace TetrisApp
             }
             else
             {
-                currentBlock = BlockQueue.GetAndUpdate();
+                CurrentBlock = BlockQueue.GetAndUpdate();
             }
         }
         public void MoveBlockDown()
@@ -106,7 +106,7 @@ namespace TetrisApp
 
             if (!BlockFits())
             {
-                currentBlock.Move(-1, 0);
+                CurrentBlock.Move(-1, 0);
                 PlaceBlock();
             }
         }

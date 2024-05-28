@@ -31,16 +31,19 @@ namespace TetrisApp
         private Block RandomBlock()
         {
             return blocks[random.Next(blocks.Length)];
+
         }
 
         public Block GetAndUpdate()
         {
             Block block = NextBlock;
+
             do
             {
                 NextBlock = RandomBlock();
             }
             while (block.ID == NextBlock.ID);
+
             return block;
         }
     }

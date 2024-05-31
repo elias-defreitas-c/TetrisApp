@@ -1,19 +1,15 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace TetrisApp
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private readonly ImageSource[] tileImages = new ImageSource[]
@@ -46,18 +42,20 @@ namespace TetrisApp
         private readonly int delayDecrease = 25;
 
         private GameState gameState = new GameState();
+
         public MainWindow()
         {
             InitializeComponent();
             imageControls = SetUpGameCanvas(gameState.GameGrid);
         }
+
         private Image[,] SetUpGameCanvas(GameGrid grid)
         {
             Image[,] imageControls = new Image[grid.Rows, grid.Columns];
             int cellSize = 25;
             for (int r = 0; r < grid.Rows; r++)
             {
-                for (int c = 0; c < grid.Columns; c++) 
+                for (int c = 0; c < grid.Columns; c++)
                 {
                     Image imageControl = new Image
                     {
@@ -69,15 +67,15 @@ namespace TetrisApp
                     GameCanvas.Children.Add(imageControl);
                     imageControls[r, c] = imageControl;
                 }
-
             }
             return imageControls;
         }
-        private void DrawGrid(GameGrid grid) 
+
+        private void DrawGrid(GameGrid grid)
         {
             for (int r = 0; r < grid.Rows; r++)
             {
-                for (int c = 0;c < grid.Columns; c++)
+                for (int c = 0; c < grid.Columns; c++)
                 {
                     int id = grid[r, c];
                     imageControls[r, c].Opacity = 1;
@@ -85,6 +83,7 @@ namespace TetrisApp
                 }
             }
         }
+
         private void DrawBlock(Block block)
         {
             foreach (Position p in block.TilePositions())
@@ -121,6 +120,7 @@ namespace TetrisApp
                 imageControls[p.Row + dropDistance, p.Column].Source = tileImages[block.ID];
             }
         }
+
         private void Draw(GameState gameState)
         {
             DrawGrid(gameState.GameGrid);
@@ -144,8 +144,9 @@ namespace TetrisApp
             }
 
             GameOverMenu.Visibility = Visibility.Visible;
-            FinalScroeText.Text = $"Score: {gameState.Score}";  
+            FinalScroeText.Text = $"Score: {gameState.Score}";
         }
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (gameState.GameOver)
@@ -161,7 +162,7 @@ namespace TetrisApp
                     gameState.MoveBlockRight();
                     break;
                 case Key.Down:
-                    gameState.MoveBlockDown(); 
+                    gameState.MoveBlockDown();
                     break;
                 case Key.Up:
                     gameState.RotateBlockCW();
@@ -182,15 +183,32 @@ namespace TetrisApp
             Draw(gameState);
         }
 
-        private async void GameCanvas_Loaded(object sender, RoutedEventArgs e) 
+        private async void GameCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            await GameLoop();
+            if (GameStartMenu.Visibility == Visibility.Hidden)
+            {
+                await GameLoop();
+            }
         }
+
         private async void PlayAgain_Click(object sender, RoutedEventArgs e)
         {
             gameState = new GameState();
             GameOverMenu.Visibility = Visibility.Hidden;
             await GameLoop();
+        }
+
+        private async void Play_Click(object sender, RoutedEventArgs e)
+        {
+            gameState = new GameState();
+            GameStartMenu.Visibility = Visibility.Hidden;
+            await GameLoop();
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+            e.Handled = true;
         }
     }
 }

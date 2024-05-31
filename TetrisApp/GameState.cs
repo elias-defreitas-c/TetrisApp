@@ -118,6 +118,7 @@ namespace TetrisApp
             return !(GameGrid.isRowEmpty(0) && GameGrid.isRowEmpty(1));
         }
 
+
         private void PlaceBlock()
         {
             foreach (Position p in CurrentBlock.TilePositions())

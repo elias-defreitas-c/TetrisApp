@@ -96,5 +96,31 @@
             </StackPanel>
 
         </Grid>
+
+        <Grid x:Name="GameStartMenu"
+              Background="#CC000000"
+              Grid.RowSpan="2"
+              Grid.ColumnSpan="3"
+              Visibility="Visible">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock Text="Tetris"
+                           FontSize="48"
+                           TextAlignment="Center"
+                           Foreground="DarkBlue"/>
+                <Button Content="Start!"
+                        Background="LightGreen"
+                        Margin="0,20,0,0"
+                        Padding="5"
+                        Click="Play_Click"/>
+                <TextBlock>
+                    <Hyperlink NavigateUri="https://github.com/elias-defreitas-c" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                     Go find me
+                    </Hyperlink>
+                </TextBlock>
+
+            </StackPanel>
+
+        </Grid>
     </Grid>
 </Window>

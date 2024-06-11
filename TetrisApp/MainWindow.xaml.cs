@@ -40,6 +40,7 @@ namespace TetrisApp
         private readonly int maxDelay = 1000;
         private readonly int minDelay = 75;
         private readonly int delayDecrease = 25;
+        private bool isPaused = false;
 
         private GameState gameState = new GameState();
 
@@ -137,6 +138,11 @@ namespace TetrisApp
 
             while (!gameState.GameOver)
             {
+                if (isPaused)
+                {
+                    await Task.Delay(50); 
+                    continue;
+                }
                 int delay = Math.Max(minDelay, maxDelay - (gameState.Score * delayDecrease));
                 await Task.Delay(delay);
                 gameState.MoveBlockDown();
@@ -150,6 +156,16 @@ namespace TetrisApp
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (gameState.GameOver)
+            {
+                return;
+            }
+            if (e.Key == Key.Escape)
+            {
+                TogglePause();
+                return;
+            }
+
+            if (isPaused)
             {
                 return;
             }
@@ -181,6 +197,15 @@ namespace TetrisApp
             }
 
             Draw(gameState);
+        }
+        private void TogglePause()
+        {
+            isPaused = !isPaused;
+            GamePauseMenu.Visibility = isPaused ? Visibility.Visible : Visibility.Hidden;
+        }
+        private void Resume_Click(object sender, RoutedEventArgs e)
+        {
+            TogglePause();
         }
 
         private async void GameCanvas_Loaded(object sender, RoutedEventArgs e)

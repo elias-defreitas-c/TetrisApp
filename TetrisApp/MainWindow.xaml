@@ -122,5 +122,25 @@
             </StackPanel>
 
         </Grid>
+        <Grid x:Name="GamePauseMenu"
+      Background="#CC000000"
+      Grid.RowSpan="2"
+      Grid.ColumnSpan="3"
+      Visibility="Hidden">
+            <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <TextBlock Text="Paused"
+                   FontSize="48"
+                   TextAlignment="Center"
+                   Foreground="DarkBlue"/>
+                <Button Content="Resume"
+                Background="LightGreen"
+                Margin="0,20,0,0"
+                Padding="5"
+                Click="Resume_Click"/>
+
+            </StackPanel>
+
+        </Grid>
     </Grid>
 </Window>
